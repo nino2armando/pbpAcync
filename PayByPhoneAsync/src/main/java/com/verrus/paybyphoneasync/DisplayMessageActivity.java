@@ -1,6 +1,9 @@
 package com.verrus.paybyphoneasync;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.TextView;
+
+import com.verrus.paybyphoneasync.Services.SharedPreferenceHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayMessageActivity extends ActionBarActivity {
 
@@ -40,6 +48,14 @@ public class DisplayMessageActivity extends ActionBarActivity {
         Name = message[0];
         Number = message[1];
         Address = message[2];
+
+        Map<String, Integer> vals = new HashMap<String, Integer>();
+        vals.put(Name, 0);
+        vals.put(Number, 1);
+        vals.put(Address, 2);
+
+        SharedPreferenceHelper.writeToSharedPref(vals, getApplicationContext());
+
 /*        TextView nameView = new TextView(this);
         nameView.setTextSize(40);
 
