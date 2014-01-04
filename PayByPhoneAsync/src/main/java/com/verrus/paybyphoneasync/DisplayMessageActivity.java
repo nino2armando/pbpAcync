@@ -50,9 +50,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
         Address = message[2];
 
         Map<String, Integer> vals = new HashMap<String, Integer>();
-        vals.put(Name, 0);
-        vals.put(Number, 1);
-        vals.put(Address, 2);
+        vals.put("Name: " + Name, 0);
+        vals.put("Number: "+ Number, 1);
+        vals.put("Address: "+ Address, 2);
 
         SharedPreferenceHelper.writeToSharedPref(vals, getApplicationContext());
 

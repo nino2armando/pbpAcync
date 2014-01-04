@@ -26,4 +26,11 @@ public class SharedPreferenceHelper {
         SharedPreferences shrdPref = PreferenceManager.getDefaultSharedPreferences(context);
         return (Map<String, Integer>) shrdPref.getAll();
     }
+
+    public static void Clear(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

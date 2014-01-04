@@ -1,12 +1,10 @@
 package com.verrus.paybyphoneasync;
 
 import android.app.ActionBar;
-import android.content.Context;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -17,9 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.verrus.paybyphoneasync.Services.SharedPreferenceHelper;
-
-import java.util.Map;
+import com.verrus.paybyphoneasync.Helpers.MenuHelper;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -45,8 +41,6 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        Map<String, Integer> result = SharedPreferenceHelper.getSharedPref(getApplicationContext());
     }
 
     @Override
@@ -74,6 +68,16 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_menu, new MenuFragment())
+                        .commit();
+
+                //MenuHelper.onActionsettingsSelected(this, getApplicationContext());
+
+                return true;
+            case  R.id.clear_settings:
+                MenuHelper.onClearSettingsSelected(getApplicationContext());
                 return true;
         }
         return super.onOptionsItemSelected(item);
