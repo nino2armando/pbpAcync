@@ -5,7 +5,6 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.verrus.paybyphoneasync.R;
-import com.verrus.paybyphoneasync.Services.SharedPreferenceHelper;
 
 import java.util.Iterator;
 import java.util.Map;

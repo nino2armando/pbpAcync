@@ -1,4 +1,4 @@
-package com.verrus.paybyphoneasync.Services;
+package com.verrus.paybyphoneasync.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

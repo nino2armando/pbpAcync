@@ -1,11 +1,9 @@
 package com.verrus.paybyphoneasync;
 
-import android.content.Context;
+import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,10 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.TextView;
 
-import com.verrus.paybyphoneasync.Services.SharedPreferenceHelper;
+import com.verrus.paybyphoneasync.Helpers.FileHelper;
+import com.verrus.paybyphoneasync.Helpers.SharedPreferenceHelper;
+import com.verrus.paybyphoneasync.Helpers.UserEntryDbHelper;
+import com.verrus.paybyphoneasync.Models.UserInputContract;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +54,36 @@ public class DisplayMessageActivity extends ActionBarActivity {
         vals.put("Number: "+ Number, 1);
         vals.put("Address: "+ Address, 2);
 
+        // write to sharedPref
         SharedPreferenceHelper.writeToSharedPref(vals, getApplicationContext());
+
+        // write to file
+        FileHelper.FileWriter(vals, getApplicationContext());
+
+        // write to db
+        UserEntryDbHelper mDbHelper = new UserEntryDbHelper(getApplicationContext());
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        try{
+            mDbHelper.onCreate(db);
+        }catch(Exception e){
+            String ex = e.getMessage();
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(UserInputContract.UserEntry.COLUMN_NAME_ENTRY_ID, 1);
+        values.put(UserInputContract.UserEntry.COLUMN_NAME, "Name");
+        values.put(UserInputContract.UserEntry.COLUMN_VALUE, message[0]);
+
+
+        Long newRowId;
+        try{
+        newRowId = db.insert(UserInputContract.UserEntry.TABLE_NAME, null, values);
+        }catch(Exception e){
+            String ex = e.getMessage();
+        }
+
+
 
 /*        TextView nameView = new TextView(this);
         nameView.setTextSize(40);

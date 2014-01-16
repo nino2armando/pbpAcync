@@ -1,8 +1,12 @@
 package com.verrus.paybyphoneasync;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.verrus.paybyphoneasync.Helpers.FileHelper;
 import com.verrus.paybyphoneasync.Helpers.MenuHelper;
+import com.verrus.paybyphoneasync.Helpers.UserEntryDbHelper;
+import com.verrus.paybyphoneasync.Models.UserInputContract;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -61,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -68,12 +83,26 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
+                // READ FROM SharedPreferences key/val
+                // MenuHelper.onActionsettingsSelected(this, getApplicationContext());
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_menu, new MenuFragment())
-                        .commit();
+                // READ FROM A file
+                //FileHelper.readFromFile(getApplicationContext(), this);
 
-                //MenuHelper.onActionsettingsSelected(this, getApplicationContext());
+                // READ FROM A  db
+                UserEntryDbHelper mDbHelper = new UserEntryDbHelper(getApplicationContext());
+                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+                /*Cursor c = db.rawQuery("select * from entry", null);*/
+                Cursor c = db.query(UserInputContract.UserEntry.TABLE_NAME, null, null, null, null, null , null);
+                String[] colNames = c.getColumnNames();
+                String name = c.getString(1);
+
+/*                c.moveToFirst();
+                String exVal = c.getString(c.getColumnIndexOrThrow(UserInputContract.UserEntry.COLUMN_NAME
+                        + " : "
+                        + UserInputContract.UserEntry.COLUMN_VALUE));*/
+
 
                 return true;
             case  R.id.clear_settings:
