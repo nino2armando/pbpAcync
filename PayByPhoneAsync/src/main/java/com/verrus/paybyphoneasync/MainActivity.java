@@ -96,12 +96,10 @@ public class MainActivity extends ActionBarActivity {
                 /*Cursor c = db.rawQuery("select * from entry", null);*/
                 Cursor c = db.query(UserInputContract.UserEntry.TABLE_NAME, null, null, null, null, null , null);
                 String[] colNames = c.getColumnNames();
-                String name = c.getString(1);
+                c.moveToFirst();
 
-/*                c.moveToFirst();
-                String exVal = c.getString(c.getColumnIndexOrThrow(UserInputContract.UserEntry.COLUMN_NAME
-                        + " : "
-                        + UserInputContract.UserEntry.COLUMN_VALUE));*/
+                // todo: this doesnt work
+                String name = c.getString(1);
 
 
                 return true;
